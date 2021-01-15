@@ -59,7 +59,19 @@ def get_users():
             #resp.status_code = 200 #optionally, you can always set a response code. 
             # 200 is the default code for a normal response
         return resp
-
+    elif request.method == 'DELETE':
+        deleteRequest = request.get_json()
+        if deleteRequest:
+            id = deleteRequest.get('id')
+            if id:
+                for user in users['users_list']:
+                    if user['id'] == id:
+                        users['users_list'].remove(user)
+                        return jsonify(success=True)
+                return jsonify(success=False)
+            #resp.status_code = 200 #optionally, you can always set a response code. 
+            # 200 is the default code for a normal response
+        return jsonify(success=False)
 
 @app.route('/users/<id>')
 def get_user(id):
