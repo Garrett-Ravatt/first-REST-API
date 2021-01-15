@@ -42,13 +42,22 @@ users = {
 def get_users():
     if request.method == 'GET':
         search_username = request.args.get('name') #accessing the value of parameter 'name'
-        if search_username :
-            subdict = {'users_list' : []}
+        if search_username:
+            n_subdict = {'users_list' : []}
             for user in users['users_list']:
                 if user['name'] == search_username:
-                    subdict['users_list'].append(user)
-            return subdict
-        return users
+                    n_subdict['users_list'].append(user)
+        else:
+            n_subdict = users
+        search_job = request.args.get('job') #accessing the value of parameter 'job'
+        if search_job:
+            j_subdict = {'users_list' : []}
+            for user in n_subdict['users_list']:
+                if user['job'] == search_job:
+                    j_subdict['users_list'].append(user)
+            return j_subdict
+        return n_subdict
+
     elif request.method == 'POST':
         userToAdd = request.get_json()
         if (userToAdd==None):
